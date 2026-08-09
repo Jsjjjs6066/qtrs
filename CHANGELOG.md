@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+# [0.5.6] - 2026-08-09
+
+### Added
+- `ListWidget` checkbox support:
+  - `set_item_checkable(row, checkable)` — make an item show a checkbox
+  - `set_item_checked(row, checked)` — set check state
+  - `is_item_checked(row) -> bool` — get check state
+  - `connect_item_changed(callback)` — emit when checkbox toggled
+- CHANGELOG.md (this file)
+
+### Changed
+- FFI now exposes `QListWidget` checkbox operations via `src/ffi/point.rs`
+
+
+---
+
 ## [0.5.5] - 2026-08-07
 
 ### Added

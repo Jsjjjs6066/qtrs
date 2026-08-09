@@ -98,6 +98,39 @@ inline void QListWidget_onCurrentItemChanged(QListWidget *w, uint64_t ctx) {
     });
 }
 
+// Checkbox support
+inline void QListWidget_setItemCheckable(QListWidget *w, int row, bool checkable) {
+    QListWidgetItem *item = w->item(row);
+    if (item) {
+        if (checkable) {
+            item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+        } else {
+            item->setFlags(item->flags() & ~Qt::ItemIsUserCheckable);
+        }
+    }
+}
+
+inline void QListWidget_setItemChecked(QListWidget *w, int row, bool checked) {
+    QListWidgetItem *item = w->item(row);
+    if (item) {
+        item->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
+    }
+}
+
+inline bool QListWidget_isItemChecked(QListWidget *w, int row) {
+    QListWidgetItem *item = w->item(row);
+    return item ? (item->checkState() == Qt::Checked) : false;
+}
+
+inline void QListWidget_onItemChanged(QListWidget *w, uint64_t ctx) {
+    QObject::connect(w, &QListWidget::itemChanged, [w, ctx](QListWidgetItem *item) {
+        if (g_hasIntTrampoline && item) {
+            int row = w->row(item);
+            g_intTrampoline(ctx, row);
+        }
+    });
+}
+
 // Upcast
 inline QWidget *toQWidget_QListWidget(QListWidget *w) {
     return static_cast<QWidget *>(w);

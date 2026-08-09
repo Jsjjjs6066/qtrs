@@ -150,6 +150,34 @@ impl ListWidget {
         self.signal_handles.push(handle);
     }
 
+    /// Connect callback when an item changes (e.g. checkbox toggled). Receives the row index.
+    pub fn connect_item_changed<F: Fn(i32)>(&mut self, f: F) {
+        debug_assert!(!self.ptr.is_null());
+        let handle = signal::leak_int(f);
+        unsafe { ffi::QListWidget_onItemChanged(self.ptr, handle.token); }
+        self.signal_handles.push(handle);
+    }
+
+    // --- Checkbox ---
+
+    /// Make an item checkable (shows a checkbox next to it).
+    pub fn set_item_checkable(&self, row: i32, checkable: bool) {
+        debug_assert!(!self.ptr.is_null());
+        unsafe { ffi::QListWidget_setItemCheckable(self.ptr, row, checkable); }
+    }
+
+    /// Set the check state of a checkable item.
+    pub fn set_item_checked(&self, row: i32, checked: bool) {
+        debug_assert!(!self.ptr.is_null());
+        unsafe { ffi::QListWidget_setItemChecked(self.ptr, row, checked); }
+    }
+
+    /// Get the check state of an item.
+    pub fn is_item_checked(&self, row: i32) -> bool {
+        debug_assert!(!self.ptr.is_null());
+        unsafe { ffi::QListWidget_isItemChecked(self.ptr, row) }
+    }
+
     #[doc(hidden)]
     pub(crate) fn from_raw(ptr: *mut ffi::QListWidget, _name: &str) -> Self {
         debug_assert!(!ptr.is_null());

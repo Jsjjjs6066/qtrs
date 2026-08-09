@@ -25,6 +25,10 @@ unsafe extern "C++" {
     unsafe fn QListWidget_onItemClicked(w: *mut QListWidget, ctx: u64);
     unsafe fn QListWidget_onItemDoubleClicked(w: *mut QListWidget, ctx: u64);
     unsafe fn QListWidget_onCurrentItemChanged(w: *mut QListWidget, ctx: u64);
+    unsafe fn QListWidget_setItemCheckable(w: *mut QListWidget, row: i32, checkable: bool);
+    unsafe fn QListWidget_setItemChecked(w: *mut QListWidget, row: i32, checked: bool);
+    unsafe fn QListWidget_isItemChecked(w: *mut QListWidget, row: i32) -> bool;
+    unsafe fn QListWidget_onItemChanged(w: *mut QListWidget, ctx: u64);
     unsafe fn toQWidget_QListWidget(w: *mut QListWidget) -> *mut QWidget;
     unsafe fn toQWidget_QMainWindow(w: *mut QMainWindow) -> *mut QWidget;
     unsafe fn toQWidget_QToolBar(toolbar: *mut QToolBar) -> *mut QWidget;
