@@ -76,6 +76,7 @@ unsafe extern "C++" {
     type QAbstractButton;
     type QVariant;
     type QSettings;
+    type QSpacerItem;
 
     // --- Model/View types ---
     type QStandardItemModel;

@@ -12,4 +12,5 @@ unsafe extern "C++" {
         right: i32,
         bottom: i32,
     );
+        unsafe fn QVBoxLayout_addSpacerItem(layout: *mut QVBoxLayout, spacer: *mut QSpacerItem);
 }

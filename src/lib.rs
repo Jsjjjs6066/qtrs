@@ -10,7 +10,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! qtrs = "0.5.6"
+//! qtrs = "0.5.7"
 //! ```
 //!
 //! ## Design principles
@@ -237,6 +237,7 @@ pub mod fontcombobox;
 pub mod buttongroup;
 pub mod keysequenceedit;
 pub mod stringlistmodel;
+pub mod spacer;
 pub mod sortfilterproxymodel;
 pub mod completer;
 pub mod clipboard;
@@ -323,6 +324,7 @@ pub use fontcombobox::FontComboBox;
 pub use buttongroup::ButtonGroup;
 pub use keysequenceedit::KeySequenceEdit;
 pub use stringlistmodel::StringListModel;
+pub use spacer::{Spacer, SpacerExt};
 pub use sortfilterproxymodel::SortFilterProxyModel;
 pub use completer::Completer;
 pub use undostack::UndoStack;
@@ -369,6 +371,7 @@ pub mod prelude {
         StringListModel, SortFilterProxyModel, Completer,
         UndoStack, IntValidator, DoubleValidator,
         FileSystemModel, HeaderView, Wizard, WizardPage, ColumnView,
+        Spacer, SpacerExt,
         Format, Scope, Status, Settings,
         get_text, get_int, get_double, get_item, find,
     };

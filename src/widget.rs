@@ -568,7 +568,14 @@ impl Widget {
                     $(
                         WidgetKind::$kind => {
                             let ptr = unsafe { ffi::$ffi(self.ptr, &c_name) };
-                            if ptr.is_null() { None }
+                            if ptr.is_null() {
+                                debug_assert!(
+                                    false,
+                                    "Widget::find(\"{}\", \"{}\") at {}:{}: {} not found",
+                                    stringify!($kind), name, file!(), line!(), stringify!($kind)
+                                );
+                                None
+                            }
                             else {
                                 find_match!(@raw $use_name, $found, $ty, ptr)
                             }
@@ -576,7 +583,14 @@ impl Widget {
                     ),*
                     WidgetKind::Any => {
                         let ptr = unsafe { ffi::QWidget_findWidget(self.ptr, &c_name) };
-                        if ptr.is_null() { None }
+                        if ptr.is_null() {
+                            debug_assert!(
+                                false,
+                                "Widget::find(\"Any\", \"{}\") at {}:{}: widget not found",
+                                name, file!(), line!()
+                            );
+                            None
+                        }
                         else { Some(FoundWidget::Widget(Widget::from_raw(ptr, true))) }
                     }
                 }
@@ -688,19 +702,19 @@ macro_rules! find {
     ($w:expr, $kind:ident, $name:literal) => {
         match $w.find(WidgetKind::$kind, $name) {
             Some(FoundWidget::$kind(w)) => w,
-            _ => panic!("widget '{}' not found", $name),
+            _ => panic!("find!({} \"{}\") at {}:{}: widget not found", stringify!($kind), $name, file!(), line!()),
         }
     };
     ($w:expr, $kind:ident, $name:literal, $msg:literal) => {
         match $w.find(WidgetKind::$kind, $name) {
             Some(FoundWidget::$kind(w)) => w,
-            _ => panic!($msg),
+            _ => panic!("{} at {}:{}", $msg, file!(), line!()),
         }
     };
     ($w:expr, $kind:ident, $name:literal, $msg:expr) => {
         match $w.find(WidgetKind::$kind, $name) {
             Some(FoundWidget::$kind(w)) => w,
-            _ => panic!("{}", $msg),
+            _ => panic!("{} at {}:{}", $msg, file!(), line!()),
         }
     };
 }

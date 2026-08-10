@@ -76,6 +76,10 @@ inline void QGridLayout_addWidget(QGridLayout *layout, QWidget *widget,
 }
 inline void QGridLayout_delete(QGridLayout *layout) { delete layout; }
 
+// --- Spacer items ---
+inline void QVBoxLayout_addSpacerItem(QVBoxLayout *l, QSpacerItem *s) { l->addSpacerItem(s); }
+inline void QHBoxLayout_addSpacerItem(QHBoxLayout *l, QSpacerItem *s) { l->addSpacerItem(s); }
+
 // --- toQWidget upcasts (cxx doesn't understand C++ inheritance) ---
 inline QWidget *toQWidget_QWidget(QWidget *w) { return w; }
 inline QWidget *toQWidget_QPushButton(QPushButton *w) {

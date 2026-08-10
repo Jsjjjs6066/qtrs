@@ -7,7 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-# [0.5.6] - 2026-08-09
+## [0.5.7] - 2026-08-10
+
+### Added
+
+- **Spacer Widget (QSpacerItem)**: 
+  - Full Rust binding for Qt's `QSpacerItem`, enabling flexible layout spacing.
+  - Added `SpacerExt` trait, allowing direct `.add_spacer()` calls on `VBoxLayout` and `HBoxLayout`.
+  - Convenience constructors: `Spacer::horizontal_expanding()`, `Spacer::vertical_expanding()`, `Spacer::fixed(width, height)`.
+  - Exported all standard `SizePolicy` constants (`FIXED`, `EXPANDING`, `PREFERRED`, etc.).
+
+### Fixed
+
+- **`find!` Macro Upgrade (Base UI Lookup)**:
+  - The core widget-finding macro now includes **`file!()` and `line!()`** in its `panic!` message
+  - When `Widget::find` fails in **debug builds**, it immediately prints the exact source file and line number where the macro was invoked
+  - This eliminates the guesswork for UI binding errors: you no longer have to grep for widget names; you just jump straight to the line of code causing the panic
+
+- **`find_match!` Macro Overhaul**:
+  - **Debug Experience Upgrade**: In `debug` builds, when `Widget::find()` fails to locate a UI control, the macro now triggers a precise `debug_assert!`
+  - **Instant Locatability**: The panic message now includes the **widget kind**, the **expected object name**, and the **exact Rust file path + line number** (`file!()` and `line!()`) where the lookup occurred
+  - This drastically reduces debugging time for "widget not found" crashes, especially across the Rust/C++ FFI boundary
+
+---
+
+## [0.5.6] - 2026-08-09
 
 ### Added
 - `ListWidget` checkbox support:
