@@ -1,0 +1,14 @@
+[package]
+name = "qtrs-build"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85.0"
+authors = ["zhanghaoxvan <3592114583@qq.com>"]
+license = "MIT OR Apache-2.0"
+description = "Build helpers for qtrs: compile-time embedding of Qt .ui and .qrc files"
+repository = "https://github.com/zhanghaoxvan/qtrs"
+keywords = ["qt", "gui", "build", "ui", "qrc"]
+categories = ["development-tools::build-utils"]
+
+[dependencies]
+cc = "1"

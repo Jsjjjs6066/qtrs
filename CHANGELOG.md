@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.8] - 2026-08-28
+
+### Added
+
+- **Compile-time `.ui` / `.qrc` embedding (`qtrs-build` crate)**:
+  - New companion crate `qtrs-build` compiles a project's Qt Designer
+    `.ui` files and Rcc `.qrc` resources into the final binary at build
+    time.
+  - `qtrs_build::Ui::embed()` embeds every `<package>/ui/*.ui` file as a
+    Qt resource at `:/qrc/<name>.ui`, so `UiLoader::load(":/qrc/<name>.ui")`
+    works with no filesystem access. Files are validated with `uic` during
+    the build.
+  - `qtrs_build::Rcc::embed()` embeds every `<package>/resources/*.qrc`
+    resource archive unchanged (available under `:/...`).
+  - Generated Qt resource objects are linked with `+whole-archive` so their
+    `qInitResources_*` static initializers run before `main()`, auto
+    registering the resources — no manual init call required.
+  - `QtTools` lookup lets you point at Qt5/Qt6 `rcc`/`uic` (e.g.
+    `qtrs_build::Ui::embed_with(QtTools::unix6())`).
+  - When no `.ui`/`.qrc` files (or no Qt tools) are found, the helper emits
+    an empty archive and degrades gracefully instead of failing the build.
+  - `testapps/embed` end-to-end test app exercises both `.ui` and `.qrc`
+    embedding.
+
 ## [0.5.7] - 2026-08-10
 
 ### Added

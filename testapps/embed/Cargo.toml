@@ -1,0 +1,12 @@
+[package]
+name = "embed"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+qtrs = { path = "../.." }
+cxx = "1"
+
+[build-dependencies]
+qtrs-build = { path = "../../qtrs-build" }

@@ -17,6 +17,7 @@ management and signal/callback bridging.
 - Signal bridging — Qt signals invoke Rust closures via a global trampoline
 - Layout ownership — adding a widget to a layout transfers ownership
 - .ui file loading — load Qt Designer `.ui` files at runtime
+- Compile-time embedding — ship `.ui` and `.qrc` resources inside the binary (`qtrs-build`)
 - Zero unsafe in public API — all FFI is encapsulated
 
 ## Quick Start
@@ -162,8 +163,46 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-qtrs = "0.5.7"
+qtrs = "0.5.8"
 ```
+
+## Compile-time `.ui` / `.qrc` embedding
+
+By default `.ui` files are loaded from disk at runtime, and images / icons /
+fonts are read from the filesystem. To ship everything inside a single
+binary, use the companion [`qtrs-build`](qtrs-build/) crate: it runs Qt's
+own `uic` and `rcc` at *compile time* and links the results into your final
+executable.
+
+Add it to your `build.rs`:
+
+```toml
+# Cargo.toml
+[build-dependencies]
+qtrs-build = "0.1"
+```
+
+```rust
+// build.rs
+fn main() {
+    qtrs_build::Ui::embed().expect("embed ui files");
+    qtrs_build::Rcc::embed().expect("embed resource files");
+}
+```
+
+Directory conventions:
+
+- Every `*.ui` file under `<package>/ui` becomes an embedded resource at
+  `:/qrc/<name>.ui` — load it with `UiLoader::load(":/qrc/<name>.ui", None)`.
+- Every `*.qrc` file under `<package>/resources` is embedded verbatim; its
+  resources are available under `:/...` (e.g. a `<file alias="icon.png">`
+  with prefix `/` resolves as `:/icon.png`).
+
+Inside the binary the `.ui` XML and `.qrc` files are registered as Qt
+resources by their `qInitResources_*` initializers before `main()` runs, so
+no filesystem access is needed at runtime. See the
+[`qtrs-build`](qtrs-build/) crate docs for customising the Qt tool lookup
+(e.g. Qt5 vs Qt6 paths).
 
 ## Memory management
 

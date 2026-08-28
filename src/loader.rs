@@ -49,6 +49,11 @@ impl UiLoader {
     /// windows, or `Some(&parent_widget)` to embed the loaded UI as a
     /// child.
     ///
+    /// `ui_path` may be a plain filesystem path or a Qt resource path. When
+    /// a `.ui` file has been embedded with
+    /// [`qtrs_build::Ui`](https://docs.rs/qtrs-build) compile-time
+    /// embedding, load it with `":/qrc/<name>.ui"`.
+    ///
     /// Returns `None` if the file cannot be opened (check that the path
     /// exists and is readable).
     pub fn load(
